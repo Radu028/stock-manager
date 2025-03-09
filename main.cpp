@@ -1,3 +1,5 @@
+#include <Material.h>
+
 #include <iostream>
 
 class Product
@@ -5,10 +7,6 @@ class Product
    public:
    private:
     int cantitateValabila, pret;
-};
-
-class Material
-{
 };
 
 class Warehouse
