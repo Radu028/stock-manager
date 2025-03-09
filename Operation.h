@@ -1,3 +1,5 @@
+#include <string>
+
 #include "Material.h"
 
 enum OperationType
@@ -26,5 +28,5 @@ class Operation
     int m_materialId;      // The ID of the material involved in the operation
     int m_quantity;        // The quantity of material involved in the operation
     OperationType m_type;  // The type of operation (IN or OUT)
-    char m_date[10];       // The date of the operation in the format YYYY-MM-DD
+    std::string m_date;    // The date of the operation in the format YYYY-MM-DD
 };
