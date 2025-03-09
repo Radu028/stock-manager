@@ -6,7 +6,7 @@ enum OperationType
     OUT
 };
 
-class Operaion
+class Operation
 {
    public:
     void apply(Material &material)
