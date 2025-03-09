@@ -13,6 +13,17 @@ class Material
     // Set the quantity of material
     void setQuantity(int quantity) { m_quantity = quantity; }
 
+    void addQuantity(int value) { m_quantity += value; }
+    void subtractQuatity(int value)
+    {
+        if (m_quantity < value)
+        {
+            return;
+        }
+
+        m_quantity -= value;
+    }
+
    private:
     int m_id;                   // The ID of the material
     int m_quantity;             // The quantity of material in stock
