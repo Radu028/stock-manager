@@ -1,11 +1,19 @@
 class Material
 {
    public:
-    int getQuantity() const { return m_quantity; }
-    void setQuantitys(int quantity) { m_quantity = quantity; }
+    int getQuantity() const  // Get the quantity of material
+    {
+        return m_quantity;
+    }
+    void setQuantitys(int quantity)  // Set the quantity of material
+    {
+        m_quantity = quantity;
+    }
 
    private:
-    int m_id, m_quantity;
-    float m_price;
-    char m_name[10], m_description[10];
+    int m_id;                // The ID of the material
+    int m_quantity;          // The quantity of material in stock
+    float m_price;           // The price of the material
+    char m_name[10];         // The name of the material
+    char m_description[10];  // The description of the material
 };
