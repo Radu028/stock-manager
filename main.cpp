@@ -1,17 +1,7 @@
 #include <Material.h>
+#include <Operation.h>
 
 #include <iostream>
-
-class Product
-{
-   public:
-   private:
-    int cantitateValabila, pret;
-};
-
-class Warehouse
-{
-};
 
 int main()
 {
