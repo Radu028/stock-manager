@@ -7,7 +7,7 @@ class Material
     {
         return m_quantity;
     }
-    void setQuantitys(int quantity)  // Set the quantity of material
+    void setQuantity(int quantity)  // Set the quantity of material
     {
         m_quantity = quantity;
     }

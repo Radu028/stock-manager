@@ -1,3 +1,4 @@
+#include <Inventory.h>
 #include <Material.h>
 #include <Operation.h>
 

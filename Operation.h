@@ -14,11 +14,11 @@ class Operation
     {
         if (m_type == IN)
         {
-            material.setQuantitys(material.getQuantity() + m_quantity);
+            material.setQuantity(material.getQuantity() + m_quantity);
         }
         else if (m_type == OUT)
         {
-            material.setQuantitys(material.getQuantity() - m_quantity);
+            material.setQuantity(material.getQuantity() - m_quantity);
         }
     }
 
