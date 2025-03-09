@@ -1,3 +1,5 @@
+
+// It represents a material in a warehouse management system.
 class Material
 {
    public:

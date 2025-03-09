@@ -6,10 +6,11 @@ enum OperationType
     OUT
 };
 
+// This class represents an operation performed on a material in the inventory
 class Operation
 {
    public:
-    void apply(Material &material)
+    void apply(Material &material)  // Apply the operation to the material
     {
         if (m_type == IN)
         {
