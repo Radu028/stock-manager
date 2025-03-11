@@ -1,5 +1,6 @@
-#include <Material.h>
-#include <Operation.h>
+#pragma once
+#include "Material.h"
+#include "Operation.h"
 
 #include <vector>
 

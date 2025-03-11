@@ -1,3 +1,4 @@
+#pragma once
 #include <string>
 
 // It represents a material in a warehouse management system.

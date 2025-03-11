@@ -1,4 +1,5 @@
-#include <Material.h>
+#pragma once
+#include "Material.h"
 
 #include <string>
 
