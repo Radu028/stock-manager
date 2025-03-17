@@ -1,25 +1,31 @@
 #include <iostream>
-#include <vector>
+#include <map>
+#include <string>
 
 #include "Product.h"
 
 class Stock
 {
    private:
-    std::vector<Product> products;
+    int id;
+    std::string name;
+    std::map<Product, int> products;
 
    public:
-    Stock(const std::vector<Product> products) { this->products = products; }
+    Stock(const std::map<Product, int>& products) { this->products = products; }
 
-    void addProducts(const std::vector<Product> products)
+    void addProducts(const std::map<Product, int> products)
     {
-        for (const Product& product : products)
+        for (const auto& item : products)
         {
-            this->products.push_back(product);
+            const Product& product = item.first;
+            int quantity = item.second;
+
+            this->products[product] += quantity;
         }
     }
 
-    void removeProducts(const std::vector<Product> products)
+    void removeProducts(const std::vector<Product>& products)
     {
         for (const Product& removedProduct : products)
         {
