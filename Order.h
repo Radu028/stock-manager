@@ -33,14 +33,24 @@ class Order
 
     Order(const Order& other)
     {
-        if (this == &other)
-        {
-            return;
-        }
-        
         this->id = other.id;
         this->order = other.order;
         this->orderDate = other.orderDate;
         this->totalPrice = other.totalPrice;
+    }
+
+    Order& operator=(const Order& other)
+    {
+        if (this == &other)
+        {
+            return *this;
+        }
+
+        this->id = other.id;
+        this->order = other.order;
+        this->orderDate = other.orderDate;
+        this->totalPrice = other.totalPrice;
+
+        return *this;
     }
 };
