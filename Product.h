@@ -27,6 +27,11 @@ class Product
     // Copy Constructor
     Product(const Product& other)
     {
+        if (this == &other)
+        {
+            return;
+        }
+
         this->id = other.id;
         this->name = new char[strlen(other.name) + 1];
         this->price = other.price;

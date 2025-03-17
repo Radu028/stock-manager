@@ -20,7 +20,7 @@ class Order
         this->orderDate = orderDate;
 
         float totalPrice = 0;
-        for(const auto& item : products)
+        for (const auto& item : products)
         {
             const Product& product = item.first;
             const int quantity = item.second;
@@ -33,6 +33,11 @@ class Order
 
     Order(const Order& other)
     {
+        if (this == &other)
+        {
+            return;
+        }
+        
         this->id = other.id;
         this->order = other.order;
         this->orderDate = other.orderDate;
