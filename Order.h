@@ -72,5 +72,15 @@ class Order
         calculateTotalPrice();
     }
 
-    void process(Stock& stock) {}
+    void process(Stock& stock)
+    {
+        if (stock.removeProducts(this->order))
+        {
+            std::cout << "The order has been procesed." << std::endl;
+        }
+        else
+        {
+            std::cout << "The order has not been procesed." << std::endl;
+        }
+    }
 };
