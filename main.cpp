@@ -1,6 +1,6 @@
-#include "Inventory.h"
-#include "Material.h"
-#include "Operation.h"
+#include "Product.h"
+#include "Stock.h"
+#include "Order.h"
 
 #include <iostream>
 
