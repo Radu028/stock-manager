@@ -71,6 +71,8 @@ class Product
     bool isAvalible(const int quantity) { return this->quantity >= quantity; }
 
     float getPrice() const { return this->price; }
+
+    int getId() const { return this->id; }
 };
 
 #endif

@@ -71,4 +71,6 @@ class Order
 
         calculateTotalPrice();
     }
+
+    void process(Stock& stock) {}
 };
