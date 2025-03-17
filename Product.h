@@ -1,8 +1,8 @@
 #ifndef PRODUCT_H
 #define PRODUCT_H
 
-#include <iostream>
 #include <cstring>
+#include <iostream>
 
 class Product
 {
@@ -32,6 +32,23 @@ class Product
         this->price = other.price;
         this->quantity = other.quantity;
     }
+
+    void updatePrice(const float newPrice) { this->price = newPrice; }
+
+    void addStock(const int quantity) { this->quantity += quantity; }
+
+    void substractStock(const int quantity)
+    {
+        if (this->quantity < quantity)
+        {
+            std::cout << "Not enough stock to subtract." << std::endl;
+            return;
+        }
+
+        this->quantity -= quantity;
+    }
+
+    bool isAvalible(const int quantity) { return this->quantity >= quantity; }
 };
 
 #endif
