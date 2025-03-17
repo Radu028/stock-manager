@@ -1,6 +1,7 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <vector>
 
 #include "Product.h"
 
@@ -25,15 +26,41 @@ class Stock
         }
     }
 
-    void removeProducts(const std::vector<Product>& products)
+    bool removeProducts(const std::map<Product, int>& productsToRemove)
     {
-        for (const Product& removedProduct : products)
+        for (const auto& item : productsToRemove)
         {
-            auto it = std::remove_if(this->products.begin(), this->products.end(),
-                                     [&removedProduct](const Product& product)
-                                     { return product.getId() == removedProduct.getId(); });
+            const Product& removedProduct = item.first;
+            int quantityToRemove = item.second;
 
-            this->products.erase(it, this->products.end());
+            auto it = this->products.find(removedProduct);
+            if (it != this->products.end())
+            {
+                int availableQuantity = it->second;
+
+                if (availableQuantity < quantityToRemove)
+                {
+                    return false;
+                }
+            }
         }
+
+        for (const auto& item : productsToRemove)
+        {
+            const Product& removedProduct = item.first;
+            int quantityToRemove = item.second;
+
+            if (this->products[removedProduct] > 0)
+            {
+                this->products[removedProduct] -= quantityToRemove;
+            }
+            else
+            {
+                auto it = this->products.find(removedProduct);
+                this->products.erase(it);
+            }
+        }
+
+        return true;
     }
 };
