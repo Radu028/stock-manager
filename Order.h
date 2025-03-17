@@ -12,15 +12,10 @@ class Order
     std::string orderDate;
     float totalPrice;
 
-   public:
-    Order(const int id, const std::map<Product, int>& products, const std::string orderDate)
+    void calculateTotalPrice()
     {
-        this->id = id;
-        this->order = products;
-        this->orderDate = orderDate;
-
         float totalPrice = 0;
-        for (const auto& item : products)
+        for (const auto& item : this->order)
         {
             const Product& product = item.first;
             const int quantity = item.second;
@@ -29,6 +24,16 @@ class Order
         }
 
         this->totalPrice = totalPrice;
+    }
+
+   public:
+    Order(const int id, const std::map<Product, int>& products, const std::string orderDate)
+    {
+        this->id = id;
+        this->order = products;
+        this->orderDate = orderDate;
+
+        calculateTotalPrice();
     }
 
     Order(const Order& other)
@@ -52,5 +57,18 @@ class Order
         this->totalPrice = other.totalPrice;
 
         return *this;
+    }
+
+    void addProduct(const std::map<Product, int>& products)
+    {
+        for (const auto& item : products)
+        {
+            const Product& product = item.first;
+            int quantity = item.second;
+
+            this->order[product] += quantity;
+        }
+
+        calculateTotalPrice();
     }
 };
