@@ -30,4 +30,12 @@ class Order
 
         this->totalPrice = totalPrice;
     }
+
+    Order(const Order& other)
+    {
+        this->id = other.id;
+        this->order = other.order;
+        this->orderDate = other.orderDate;
+        this->totalPrice = other.totalPrice;
+    }
 };
