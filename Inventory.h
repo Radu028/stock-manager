@@ -1,8 +1,8 @@
 #pragma once
+#include <vector>
+
 #include "Material.h"
 #include "Operation.h"
-
-#include <vector>
 
 // This will be the "manager" class that handles the materials and operations
 class Inventory

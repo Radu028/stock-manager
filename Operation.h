@@ -1,7 +1,7 @@
 #pragma once
-#include "Material.h"
-
 #include <string>
+
+#include "Material.h"
 
 enum OperationType
 {
@@ -26,6 +26,7 @@ class Operation
     }
 
    private:
+    // factura
     int m_materialId;      // The ID of the material involved in the operation
     int m_quantity;        // The quantity of material involved in the operation
     OperationType m_type;  // The type of operation (IN or OUT)
