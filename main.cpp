@@ -2,6 +2,7 @@
 #include <map>
 #include <vector>
 
+#include "Order.cpp"
 #include "Order.h"
 #include "Product.cpp"
 #include "Product.h"
@@ -58,10 +59,14 @@ int main()
     order3Products[orange] = 12;
 
     // Create orders
+    Order order1(order1Products, "2024-03-20", "Store 1");
+    Order order2(order1Products, "2024-03-20", "Store 2");
+    Order order3(order1Products, "2024-03-20", "Store 3");
+
     std::vector<Order> orders;
-    orders.push_back(Order(1, order1Products, "2024-03-20", "Store 1"));
-    orders.push_back(Order(2, order2Products, "2024-03-20", "Store 2"));
-    orders.push_back(Order(3, order3Products, "2024-03-20", "Store 3"));
+    orders.push_back(order1);
+    orders.push_back(order2);
+    orders.push_back(order3);
 
     std::vector<Stock> stocks;
     stocks.push_back(deposit);

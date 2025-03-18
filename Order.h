@@ -17,6 +17,9 @@
  * - int represents the quantity ordered
  */
 
+#ifndef ORDER_H
+#define ORDER_H
+
 #include <iostream>
 #include <map>
 #include <string>
@@ -54,10 +57,10 @@ class Order
     }
 
    public:
-    Order(const int id, const std::map<Product, int>& products, const std::string orderDate,
+    Order(const std::map<Product, int>& products, const std::string orderDate,
           const std::string place)
     {
-        this->id = id;
+        this->id = this->nextId++;
         this->order = products;
         this->orderDate = orderDate;
         this->place = place;
@@ -114,3 +117,5 @@ class Order
         }
     }
 };
+
+#endif

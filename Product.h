@@ -35,7 +35,7 @@ class Product
     // Constructor
     Product(const std::string name, const float price)
     {
-        this->id = nextId++;
+        this->id = this->nextId++;
         this->name = name;
         this->price = price;
     }
