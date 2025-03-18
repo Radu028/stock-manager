@@ -3,7 +3,9 @@
 #include <vector>
 
 #include "Order.h"
+#include "Product.cpp"
 #include "Product.h"
+#include "Stock.cpp"
 #include "Stock.h"
 
 int main()
@@ -13,8 +15,8 @@ int main()
     Product orange("Orange", 5.5);
 
     std::cout << apple << std::endl;
-    std::cout << "Banana: " << banana.getPrice() << std::endl;
-    std::cout << "Orange: " << orange.getPrice() << std::endl;
+    std::cout << banana << std::endl;
+    std::cout << orange << std::endl;
 
     // Create a map for each stock
     std::map<Product, int> depositProducts;
