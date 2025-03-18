@@ -30,10 +30,12 @@ class Stock
     std::string name;
     std::map<Product, int> products;
 
+    static int nextId;
+
    public:
-    Stock(const int id, const std::string name, const std::map<Product, int>& products)
+    Stock(const std::string name, const std::map<Product, int>& products)
     {
-        this->id = id;
+        this->id = nextId++;
         this->name = name;
         this->products = products;
     }

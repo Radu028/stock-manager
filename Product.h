@@ -27,13 +27,15 @@ class Product
     std::string name;
     float price;
 
+    static int nextId;
+
     friend std::ostream& operator<<(std::ostream& os, const Product& product);
 
    public:
     // Constructor
-    Product(const int id, const std::string name, const float price)
+    Product(const std::string name, const float price)
     {
-        this->id = id;
+        this->id = nextId++;
         this->name = name;
         this->price = price;
     }
