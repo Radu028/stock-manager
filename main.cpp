@@ -55,13 +55,13 @@ int main()
 
     std::map<Product, int> order3Products;
     order3Products[apple] = 15;
-    order3Products[banana] = 7;
+    order3Products[banana] = 9;
     order3Products[orange] = 12;
 
     // Create orders
     Order order1(order1Products, "2024-03-20", "Store 1");
-    Order order2(order1Products, "2024-03-20", "Store 2");
-    Order order3(order1Products, "2024-03-20", "Store 3");
+    Order order2(order2Products, "2024-03-20", "Store 2");
+    Order order3(order3Products, "2024-03-20", "Store 3");
 
     std::vector<Order> orders;
     orders.push_back(order1);
@@ -86,10 +86,9 @@ int main()
     std::cout << std::endl;
 
     std::cout << "After processing the orders, we have the following stocks: " << std::endl;
-    for (int i = 0; i < orders.size(); i++)
-    {
-        orders[i].process(stocks[i]);
-    }
+    order1.process(deposit);
+    order2.process(deposit);
+    order3.process(deposit);
 
     std::cout << deposit << std::endl;
     std::cout << warehouse << std::endl;
