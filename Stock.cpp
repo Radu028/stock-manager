@@ -19,4 +19,6 @@ std::ostream& operator<<(std::ostream& os, const Stock& stock)
         os << "    Product: " << product.getName() << ", Price: " << product.getPrice()
            << ", Quantity: " << quantity;
     }
+
+    return os;
 }

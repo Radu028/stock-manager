@@ -1,6 +1,9 @@
 #include "Order.h"
 
 #include <iostream>
+#include <utility>
+
+#include "Product.h"
 
 int Order::nextId = 1;
 
@@ -17,4 +20,6 @@ std::ostream& operator<<(std::ostream& os, const Order& order)
 
         os << "    Product: " << product.getName() << ", Price: ", product.getPrice();
     }
+
+    return os;
 }

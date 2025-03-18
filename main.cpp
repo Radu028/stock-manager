@@ -14,9 +14,11 @@ int main()
     Product banana("Banana", 4);
     Product orange("Orange", 5.5);
 
+    std::cout << "We have the following products: " << std::endl;
     std::cout << apple << std::endl;
     std::cout << banana << std::endl;
     std::cout << orange << std::endl;
+    std::cout << std::endl;
 
     // Create a map for each stock
     std::map<Product, int> depositProducts;
@@ -65,6 +67,12 @@ int main()
     stocks.push_back(deposit);
     stocks.push_back(warehouse);
     stocks.push_back(shop);
+
+    std::cout << "We have the following stocks: " << std::endl;
+    std::cout << deposit << std::endl;
+    std::cout << warehouse << std::endl;
+    std::cout << shop << std::endl;
+    std::cout << std::endl;
 
     return 0;
 }
