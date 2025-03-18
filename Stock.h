@@ -1,6 +1,7 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "Product.h"
@@ -17,10 +18,11 @@ class Stock
 
     void addProducts(const std::map<Product, int> products)
     {
-        for (const auto& item : products)
+        for (std::map<Product, int>::const_iterator it = products.begin(); it != products.end();
+             ++it)
         {
-            const Product& product = item.first;
-            int quantity = item.second;
+            const Product& product = it->first;
+            int quantity = it->second;
 
             this->products[product] += quantity;
         }
@@ -28,15 +30,16 @@ class Stock
 
     bool removeProducts(const std::map<Product, int>& productsToRemove)
     {
-        for (const auto& item : productsToRemove)
+        for (std::map<Product, int>::const_iterator it = productsToRemove.begin();
+             it != productsToRemove.end(); ++it)
         {
-            const Product& removedProduct = item.first;
-            int quantityToRemove = item.second;
+            const Product& removedProduct = it->first;
+            int quantityToRemove = it->second;
 
-            auto it = this->products.find(removedProduct);
-            if (it != this->products.end())
+            std::map<Product, int>::const_iterator productIt = this->products.find(removedProduct);
+            if (productIt != this->products.end())
             {
-                int availableQuantity = it->second;
+                int availableQuantity = productIt->second;
 
                 if (availableQuantity < quantityToRemove)
                 {
@@ -45,10 +48,11 @@ class Stock
             }
         }
 
-        for (const auto& item : productsToRemove)
+        for (std::map<Product, int>::const_iterator it = productsToRemove.begin();
+             it != productsToRemove.end(); ++it)
         {
-            const Product& removedProduct = item.first;
-            int quantityToRemove = item.second;
+            const Product& removedProduct = it->first;
+            int quantityToRemove = it->second;
 
             if (this->products[removedProduct] > 0)
             {
