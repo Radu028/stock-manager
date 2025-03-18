@@ -16,7 +16,8 @@ std::ostream& operator<<(std::ostream& os, const Stock& stock)
         const Product& product = it->first;
         const int quantity = it->second;
 
-        os << "    Product: " << product.getName() << ", Price: " << product.getPrice()
+        os << std::endl
+           << "  Product: " << product.getName() << ", Price: " << product.getPrice()
            << ", Quantity: " << quantity;
     }
 
