@@ -1,4 +1,5 @@
 #include <iostream>
+#include <map>
 #include <vector>
 
 #include "Order.h"
@@ -11,17 +12,57 @@ int main()
     Product banana("Banana", 4);
     Product orange("Orange", 5.5);
 
-    Stock deposit("Deposit", {{apple, 200}, {banana, 100}, {orange, 150}});
-    Stock warehouse("Warehouse", {{apple, 100}, {banana, 50}, {orange, 75}});
-    Stock shop("Shop", {{apple, 50}, {banana, 25}, {orange, 30}});
+    std::cout << "Apple: " << apple.getPrice() << std::endl;
+    std::cout << "Banana: " << banana.getPrice() << std::endl;
+    std::cout << "Orange: " << orange.getPrice() << std::endl;
 
-    std::vector<Order> orders = {
-        Order(1, {{apple, 10}, {banana, 5}, {orange, 8}}, "2024-03-20", "Store 1"),
-        Order(2, {{apple, 20}, {banana, 10}, {orange, 15}}, "2024-03-20", "Store 2"),
-        Order(3, {{apple, 15}, {banana, 7}, {orange, 12}}, "2024-03-20", "Store 3")};
+    // Create a map for each stock
+    std::map<Product, int> depositProducts;
+    depositProducts[apple] = 200;
+    depositProducts[banana] = 100;
+    depositProducts[orange] = 150;
 
-    std::vector<Stock> stocks = {deposit, warehouse, shop};
+    std::map<Product, int> warehouseProducts;
+    warehouseProducts[apple] = 100;
+    warehouseProducts[banana] = 50;
+    warehouseProducts[orange] = 75;
 
-    std::cout << "Hello, World!" << std::endl;
+    std::map<Product, int> shopProducts;
+    shopProducts[apple] = 50;
+    shopProducts[banana] = 25;
+    shopProducts[orange] = 30;
+
+    // Create stocks
+    Stock deposit("Deposit", depositProducts);
+    Stock warehouse("Warehouse", warehouseProducts);
+    Stock shop("Shop", shopProducts);
+
+    // Create maps for orders
+    std::map<Product, int> order1Products;
+    order1Products[apple] = 10;
+    order1Products[banana] = 5;
+    order1Products[orange] = 8;
+
+    std::map<Product, int> order2Products;
+    order2Products[apple] = 20;
+    order2Products[banana] = 10;
+    order2Products[orange] = 15;
+
+    std::map<Product, int> order3Products;
+    order3Products[apple] = 15;
+    order3Products[banana] = 7;
+    order3Products[orange] = 12;
+
+    // Create orders
+    std::vector<Order> orders;
+    orders.push_back(Order(1, order1Products, "2024-03-20", "Store 1"));
+    orders.push_back(Order(2, order2Products, "2024-03-20", "Store 2"));
+    orders.push_back(Order(3, order3Products, "2024-03-20", "Store 3"));
+
+    std::vector<Stock> stocks;
+    stocks.push_back(deposit);
+    stocks.push_back(warehouse);
+    stocks.push_back(shop);
+
     return 0;
 }

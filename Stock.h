@@ -15,6 +15,9 @@
  * - int represents the quantity of each product
  */
 
+#ifndef STOCK_H
+#define STOCK_H
+
 #include <iostream>
 #include <map>
 #include <string>
@@ -93,3 +96,6 @@ class Stock
         return true;
     }
 };
+
+int Stock::nextId = 1;
+#endif

@@ -23,6 +23,7 @@
 #include <utility>
 
 #include "Product.h"
+#include "Stock.h"
 
 class Order
 {
