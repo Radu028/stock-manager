@@ -12,7 +12,7 @@ int main()
     Product banana("Banana", 4);
     Product orange("Orange", 5.5);
 
-    std::cout << "Apple: " << apple.getPrice() << std::endl;
+    std::cout << apple << std::endl;
     std::cout << "Banana: " << banana.getPrice() << std::endl;
     std::cout << "Orange: " << orange.getPrice() << std::endl;
 

@@ -10,6 +10,8 @@
 
 #include <iostream>
 
+int Product::nextId = 1;
+
 std::ostream& operator<<(std::ostream& os, const Product& product)
 {
     os << "Product: " << product.name << ", Price: " << product.price;

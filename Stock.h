@@ -97,5 +97,4 @@ class Stock
     }
 };
 
-int Stock::nextId = 1;
 #endif

@@ -72,6 +72,4 @@ class Product
     int getId() const { return this->id; }
 };
 
-int Product::nextId = 1;
-
 #endif
