@@ -31,7 +31,12 @@ class Stock
     std::map<Product, int> products;
 
    public:
-    Stock(const std::map<Product, int>& products) { this->products = products; }
+    Stock(const int id, const std::string name, const std::map<Product, int>& products)
+    {
+        this->id = id;
+        this->name = name;
+        this->products = products;
+    }
 
     void addProducts(const std::map<Product, int> products)
     {

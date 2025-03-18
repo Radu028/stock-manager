@@ -31,7 +31,7 @@ class Product
 
    public:
     // Constructor
-    Product(const int id, const std::string name, const float price, const int quantity)
+    Product(const int id, const std::string name, const float price)
     {
         this->id = id;
         this->name = name;
