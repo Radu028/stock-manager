@@ -1,3 +1,20 @@
+/**
+ * This class represents a stock/inventory system that:
+ * - Maintains a collection of products and their quantities
+ * - Allows adding new products to the stock
+ * - Handles product removal with quantity validation
+ * - Uses a map to store product-quantity pairs
+ *
+ * The class provides methods to:
+ * - Add products to the stock
+ * - Remove products from the stock (with quantity validation)
+ * - Track product quantities
+ *
+ * The stock is implemented using std::map<Product, int> where:
+ * - Product is the key (unique identifier)
+ * - int represents the quantity of each product
+ */
+
 #include <iostream>
 #include <map>
 #include <string>

@@ -1,4 +1,21 @@
-// Explicatii
+/**
+ * This class manages customer orders with the following features:
+ * - Tracks order details (ID, date, place)
+ * - Maintains a list of products and their quantities
+ * - Calculates total order price
+ * - Handles order processing against available stock
+ *
+ * The class provides:
+ * - Constructors for creating new orders
+ * - Copy constructor and assignment operator
+ * - Methods to add products to the order
+ * - Order processing functionality
+ * - Automatic total price calculation
+ *
+ * The order is implemented using std::map<Product, int> where:
+ * - Product is the key (unique identifier)
+ * - int represents the quantity ordered
+ */
 
 #include <iostream>
 #include <map>
