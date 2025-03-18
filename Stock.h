@@ -35,6 +35,8 @@ class Stock
 
     static int nextId;
 
+    friend std::ostream& operator<<(std::ostream& os, const Stock& stock);
+
    public:
     Stock(const std::string name, const std::map<Product, int>& products)
     {
