@@ -70,6 +70,8 @@ class Product
     float getPrice() const { return this->price; }
 
     int getId() const { return this->id; }
+
+    std::string getName() const { return this->name; }
 };
 
 #endif
