@@ -1,6 +1,9 @@
 #include "Stock.h"
 
 #include <iostream>
+#include <utility>
+
+#include "Product.h"
 
 int Stock::nextId = 1;
 

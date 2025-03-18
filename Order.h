@@ -34,6 +34,10 @@ class Order
     float totalPrice;
     std::string place;
 
+    static int nextId;
+
+    friend std::ostream& operator<<(std::ostream& os, const Order& order);
+
     void calculateTotalPrice()
     {
         float totalPrice = 0;
