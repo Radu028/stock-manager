@@ -60,8 +60,9 @@ class Stock
             }
             else
             {
-                auto it = this->products.find(removedProduct);
-                this->products.erase(it);
+                std::map<Product, int>::iterator removedProductIt =
+                    this->products.find(removedProduct);
+                this->products.erase(removedProductIt);
             }
         }
 
