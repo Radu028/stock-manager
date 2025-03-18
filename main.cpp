@@ -79,5 +79,22 @@ int main()
     std::cout << shop << std::endl;
     std::cout << std::endl;
 
+    std::cout << "And we have the following orders: " << std::endl;
+    std::cout << order1 << std::endl;
+    std::cout << order2 << std::endl;
+    std::cout << order3 << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "After processing the orders, we have the following stocks: " << std::endl;
+    for (int i = 0; i < orders.size(); i++)
+    {
+        orders[i].process(stocks[i]);
+    }
+
+    std::cout << deposit << std::endl;
+    std::cout << warehouse << std::endl;
+    std::cout << shop << std::endl;
+    std::cout << std::endl;
+
     return 0;
 }
