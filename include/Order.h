@@ -20,6 +20,7 @@
 #ifndef ORDER_H
 #define ORDER_H
 
+#include <format>  // C++20 formatting
 #include <iostream>
 #include <map>
 #include <string>
@@ -37,93 +38,79 @@ class Order
     float totalPrice;
     std::string place;
 
-    static int nextId;
+    inline static int nextId = 0;  // Inline static member initialization
 
     friend std::ostream& operator<<(std::ostream& os, const Order& order);
 
     void calculateTotalPrice()
     {
-        float totalPrice = 0;
-        for (std::map<Product, int>::const_iterator it = this->order.begin();
-             it != this->order.end(); ++it)
+        totalPrice = 0;
+        for (const auto& [product, quantity] : order)
         {
-            const Product& product = it->first;
-            const int quantity = it->second;
-
             totalPrice += product.getPrice() * quantity;
         }
-
-        this->totalPrice = totalPrice;
     }
 
    public:
-    Order(const std::map<Product, int>& products, const std::string orderDate,
-          const std::string place)
+    // Constructor
+    Order(const std::map<Product, int>& order, const std::string& orderDate,
+          const std::string& place)
+        : id(nextId++), order(order), orderDate(orderDate), place(place), totalPrice(0)
     {
-        this->id = this->nextId++;
-        this->order = products;
-        this->orderDate = orderDate;
-        this->place = place;
-
         calculateTotalPrice();
     }
 
-    Order(const Order& other)
-    {
-        this->id = other.id;
-        this->order = other.order;
-        this->orderDate = other.orderDate;
-        this->totalPrice = other.totalPrice;
-        this->place = other.place;
-    }
+    // Copy constructor and assignment operator
+    Order(const Order&) = default;
+    Order& operator=(const Order&) = default;
 
-    Order& operator=(const Order& other)
-    {
-        if (this == &other)
-        {
-            return *this;
-        }
+    // Move constructor and assignment operator
+    Order(Order&&) noexcept = default;
+    Order& operator=(Order&&) noexcept = default;
 
-        this->id = other.id;
-        this->order = other.order;
-        this->orderDate = other.orderDate;
-        this->totalPrice = other.totalPrice;
-        this->place = other.place;
-
-        return *this;
-    }
-
-    // Get the place where the order is to be delivered
-    std::string getPlace() const { return this->place; }
-
-    // Get the date when the order was placed
-    std::string getOrderDate() const { return this->orderDate; }
+    // Getters
+    int getId() const { return id; }
+    float getTotalPrice() const { return totalPrice; }
+    std::string getOrderDate() const { return orderDate; }
+    std::string getPlace() const { return place; }
+    const std::map<Product, int>& getOrder() const { return order; }
 
     void addProduct(const std::map<Product, int>& products)
     {
-        for (std::map<Product, int>::const_iterator it = products.begin(); it != this->order.end();
-             ++it)
+        for (const auto& [product, quantity] : products)
         {
-            const Product& product = it->first;
-            int quantity = it->second;
-
-            this->order[product] += quantity;
+            order[product] += quantity;
         }
-
         calculateTotalPrice();
     }
 
     void process(Stock& stock)
     {
-        if (stock.removeProducts(this->order))
+        if (stock.removeProducts(order))
         {
             std::cout << "The order has been procesed." << std::endl;
         }
         else
         {
-            std::cout << "The order has not been procesed." << std::endl;
+            std::cout << "The order could not be processed. Not enough products in stock."
+                      << std::endl;
         }
     }
 };
 
-#endif
+// Stream insertion operator for Order
+inline std::ostream& operator<<(std::ostream& os, const Order& order)
+{
+    os << "Order ID: " << order.id << ", Placed on: " << order.orderDate
+       << ", Total price: " << order.totalPrice << ", Place: " << order.place
+       << ", Order: " << std::endl;
+
+    for (const auto& [product, quantity] : order.order)
+    {
+        os << "  " << product << ", Quantity: " << quantity << std::endl;
+    }
+
+    return os;
+}
+
+#endif  // ORDER_H

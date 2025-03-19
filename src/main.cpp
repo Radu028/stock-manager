@@ -1,8 +1,11 @@
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <map>
+#include <ranges>
 #include <sstream>
 #include <string>
+#include <string_view>
 #include <vector>
 
 #include "../include/Order.h"
@@ -30,7 +33,7 @@ int main()
     while (std::getline(dataFile, line))
     {
         // Skip empty lines and comments
-        if (line.empty() || line[0] == '#')
+        if (line.empty() || (line.size() > 0 && line[0] == '#'))
         {
             continue;
         }
@@ -46,8 +49,7 @@ int main()
             ss >> name >> price;
 
             // Create product and store in our map
-            Product product(name, price);
-            products[name] = product;
+            products.emplace(name, Product{name, price});
         }
         else if (type == "STOCK")
         {
@@ -56,9 +58,9 @@ int main()
             ss >> stockName >> productName >> quantity;
 
             // Find the product in our products map
-            if (products.find(productName) != products.end())
+            if (auto it = products.find(productName); it != products.end())
             {
-                stockProducts[stockName][products[productName]] = quantity;
+                stockProducts[stockName][it->second] = quantity;
             }
         }
         else if (type == "ORDER")
@@ -76,17 +78,18 @@ int main()
 
     // Create actual Stock objects from our data
     std::vector<Stock> stocks;
-    for (const auto& stockEntry : stockProducts)
+    stocks.reserve(stockProducts.size());
+
+    for (const auto& [stockName, stockItems] : stockProducts)
     {
-        Stock stock(stockEntry.first, stockEntry.second);
-        stocks.push_back(stock);
+        stocks.emplace_back(stockName, stockItems);
     }
 
     // Display products
     std::cout << "We have the following products: " << std::endl;
-    for (const auto& productEntry : products)
+    for (const auto& [_, product] : products)
     {
-        std::cout << productEntry.second << std::endl;
+        std::cout << product << std::endl;
     }
     std::cout << std::endl;
 
@@ -100,29 +103,23 @@ int main()
 
     // Create and process orders
     std::vector<Order> orderObjects;
-    for (const auto& dateEntry : orders)
-    {
-        std::string date = dateEntry.first;
 
-        for (const auto& storeEntry : dateEntry.second)
+    for (const auto& [date, storeMap] : orders)
+    {
+        for (const auto& [store, productMap] : storeMap)
         {
-            std::string store = storeEntry.first;
             std::map<Product, int> orderProducts;
 
-            for (const auto& productEntry : storeEntry.second)
+            for (const auto& [productName, quantity] : productMap)
             {
-                std::string productName = productEntry.first;
-                int quantity = productEntry.second;
-
-                if (products.find(productName) != products.end())
+                if (auto it = products.find(productName); it != products.end())
                 {
-                    orderProducts[products[productName]] = quantity;
+                    orderProducts[it->second] = quantity;
                 }
             }
 
             // Create the order object
-            Order order(orderProducts, date, store);
-            orderObjects.push_back(order);
+            orderObjects.emplace_back(orderProducts, date, store);
         }
     }
 
@@ -135,17 +132,10 @@ int main()
     std::cout << std::endl;
 
     // Find the deposit stock for processing orders
-    Stock* depositStock = nullptr;
-    for (auto& stock : stocks)
-    {
-        if (stock.getName() == "Deposit")
-        {
-            depositStock = &stock;
-            break;
-        }
-    }
+    auto depositIt = std::find_if(stocks.begin(), stocks.end(),
+                                  [](const Stock& stock) { return stock.getName() == "Deposit"; });
 
-    if (depositStock != nullptr)
+    if (depositIt != stocks.end())
     {
         std::cout << "After processing the orders, we have the following stocks: " << std::endl;
 
@@ -154,7 +144,7 @@ int main()
         {
             std::cout << "Processing order for " << order.getPlace() << " on "
                       << order.getOrderDate() << ":" << std::endl;
-            order.process(*depositStock);
+            order.process(*depositIt);
             std::cout << std::endl;
         }
 

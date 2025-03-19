@@ -1,25 +1,9 @@
-#include "Stock.h"
+/**
+ * This file is kept for build compatibility.
+ *
+ * In C++17 and later, we initialize static members inline in the class definition.
+ * The implementation details are now in the header file for better inlining
+ * and template support.
+ */
 
-#include <iostream>
-#include <utility>
-
-#include "Product.h"
-
-int Stock::nextId = 1;
-
-std::ostream& operator<<(std::ostream& os, const Stock& stock)
-{
-    os << "Stock: " << stock.name;
-    for (std::map<Product, int>::const_iterator it = stock.products.begin();
-         it != stock.products.end(); ++it)
-    {
-        const Product& product = it->first;
-        const int quantity = it->second;
-
-        os << std::endl
-           << "  Product: " << product.getName() << ", Price: " << product.getPrice()
-           << ", Quantity: " << quantity;
-    }
-
-    return os;
-}
+// No implementation needed here - everything is in the header

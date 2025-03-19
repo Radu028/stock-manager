@@ -20,6 +20,7 @@
 
 #include <iostream>
 #include <map>
+#include <stdexcept>
 #include <string>
 #include <utility>
 #include <vector>
@@ -33,73 +34,78 @@ class Stock
     std::string name;
     std::map<Product, int> products;
 
-    static int nextId;
+    inline static int nextId = 0;  // Inline static member initialization
 
     friend std::ostream& operator<<(std::ostream& os, const Stock& stock);
 
    public:
-    Stock(const std::string name, const std::map<Product, int>& products)
+    explicit Stock(const std::string& name, const std::map<Product, int>& products)
+        : id(nextId++), name(name), products(products)
     {
-        this->id = nextId++;
-        this->name = name;
-        this->products = products;
     }
 
-    // Get the name of the stock
-    std::string getName() const { return this->name; }
+    // Copy constructor and assignment operator
+    Stock(const Stock&) = default;
+    Stock& operator=(const Stock&) = default;
 
-    void addProducts(const std::map<Product, int> products)
+    // Move constructor and assignment operator
+    Stock(Stock&&) noexcept = default;
+    Stock& operator=(Stock&&) noexcept = default;
+
+    void addProducts(const std::map<Product, int>& productsToAdd)
     {
-        for (std::map<Product, int>::const_iterator it = products.begin(); it != products.end();
-             ++it)
+        for (const auto& [product, quantity] : productsToAdd)
         {
-            const Product& product = it->first;
-            int quantity = it->second;
-
-            this->products[product] += quantity;
+            if (products.contains(product))  // C++20 contains() method
+            {
+                products[product] += quantity;
+            }
+            else
+            {
+                products[product] = quantity;
+            }
         }
     }
 
     bool removeProducts(const std::map<Product, int>& productsToRemove)
     {
-        for (std::map<Product, int>::const_iterator it = productsToRemove.begin();
-             it != productsToRemove.end(); ++it)
+        // First check if we have enough of each product
+        for (const auto& [product, quantity] : productsToRemove)
         {
-            const Product& removedProduct = it->first;
-            int quantityToRemove = it->second;
-
-            std::map<Product, int>::const_iterator productIt = this->products.find(removedProduct);
-            if (productIt != this->products.end())
+            if (!products.contains(product) || products[product] < quantity)
             {
-                int availableQuantity = productIt->second;
-
-                if (availableQuantity < quantityToRemove)
-                {
-                    return false;
-                }
+                return false;  // Not enough of this product
             }
         }
 
-        for (std::map<Product, int>::const_iterator it = productsToRemove.begin();
-             it != productsToRemove.end(); ++it)
+        // If we have enough, remove the products
+        for (const auto& [product, quantity] : productsToRemove)
         {
-            const Product& removedProduct = it->first;
-            int quantityToRemove = it->second;
+            products[product] -= quantity;
 
-            if (this->products[removedProduct] > 0)
+            // Remove product from map if quantity becomes zero
+            if (products[product] == 0)
             {
-                this->products[removedProduct] -= quantityToRemove;
-            }
-            else
-            {
-                std::map<Product, int>::iterator removedProductIt =
-                    this->products.find(removedProduct);
-                this->products.erase(removedProductIt);
+                products.erase(product);
             }
         }
-
         return true;
     }
+
+    const std::map<Product, int>& getProducts() const { return products; }
+    std::string getName() const { return name; }
+    int getId() const { return id; }
 };
 
-#endif
+// Stream insertion operator for Stock
+inline std::ostream& operator<<(std::ostream& os, const Stock& stock)
+{
+    os << "Stock: " << stock.name << std::endl;
+    for (const auto& [product, quantity] : stock.products)
+    {
+        os << "  " << product << ", Quantity: " << quantity << std::endl;
+    }
+    return os;
+}
+
+#endif  // STOCK_H

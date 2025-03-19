@@ -17,6 +17,7 @@
 #ifndef PRODUCT_H
 #define PRODUCT_H
 
+#include <compare>  // For three-way comparison operator (spaceship)
 #include <iostream>
 #include <string>
 
@@ -27,7 +28,7 @@ class Product
     std::string name;
     float price;
 
-    static int nextId;
+    inline static int nextId = 0;  // Inline static member initialization (C++17)
 
     friend std::ostream& operator<<(std::ostream& os, const Product& product);
 
@@ -36,45 +37,42 @@ class Product
     Product() : id(nextId++), name(""), price(0.0f) {}
 
     // Constructor
-    Product(const std::string name, const float price)
+    explicit Product(const std::string& name, const float price)
+        : id(nextId++), name(name), price(price)
     {
-        this->id = this->nextId++;
-        this->name = name;
-        this->price = price;
     }
 
     // Copy Constructor
-    Product(const Product& other)
-    {
-        this->id = other.id;
-        this->name = other.name;
-        this->price = other.price;
-    }
+    Product(const Product& other) = default;  // Use compiler-generated copy constructor
 
-    Product& operator=(const Product& other)
-    {
-        if (this == &other)
-        {
-            return *this;
-        }
+    // Assignment operator
+    Product& operator=(const Product& other) =
+        default;  // Use compiler-generated assignment operator
 
-        this->id = other.id;
-        this->name = other.name;
-        this->price = other.price;
+    // Move constructor and assignment operator
+    Product(Product&& other) noexcept = default;
+    Product& operator=(Product&& other) noexcept = default;
 
-        return *this;
-    }
+    // Compare two products based on ID
+    auto operator<=>(const Product& other) const = default;  // Three-way comparison (C++20)
 
-    // For using map. It needs a comparator
-    bool operator<(const Product& other) const { return this->id < other.id; }
+    // Explicitly define equality operator (for backward compatibility)
+    bool operator==(const Product& other) const { return id == other.id; }
 
+    // Getters with trailing return types
+    auto getName() const -> std::string { return this->name; }
+    auto getPrice() const -> float { return this->price; }
+    auto getId() const -> int { return this->id; }
+
+    // Setters
     void updatePrice(const float newPrice) { this->price = newPrice; }
-
-    float getPrice() const { return this->price; }
-
-    int getId() const { return this->id; }
-
-    std::string getName() const { return this->name; }
 };
 
-#endif
+// Stream insertion operator for Product
+inline std::ostream& operator<<(std::ostream& os, const Product& product)
+{
+    os << "Product: " << product.name << ", Price: " << product.price;
+    return os;
+}
+
+#endif  // PRODUCT_H
