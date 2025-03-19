@@ -49,5 +49,8 @@
     "vector": "cpp",
     "algorithm": "cpp",
     "map": "cpp"
+  },
+  "code-runner.executorMap": {
+    "cpp": "cd \"$workspaceRoot\" && g++ -std=c++23 -I include/ src/*.cpp -o main && \"$workspaceRoot/main\""
   }
 }
