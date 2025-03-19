@@ -54,9 +54,9 @@ class Product
     Product& operator=(Product&& other) noexcept = default;
 
     // Compare two products based on ID
-    auto operator<=>(const Product& other) const = default;  // Three-way comparison (C++20)
+    bool operator<(const Product& other) const { return id < other.id; }
 
-    // Explicitly define equality operator (for backward compatibility)
+    // Explicitly define equality operator
     bool operator==(const Product& other) const { return id == other.id; }
 
     // Getters with trailing return types

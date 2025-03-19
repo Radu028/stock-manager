@@ -56,7 +56,7 @@ class Stock
     {
         for (const auto& [product, quantity] : productsToAdd)
         {
-            if (products.contains(product))  // C++20 contains() method
+            if (products.find(product) != products.end())
             {
                 products[product] += quantity;
             }
@@ -72,7 +72,7 @@ class Stock
         // First check if we have enough of each product
         for (const auto& [product, quantity] : productsToRemove)
         {
-            if (!products.contains(product) || products[product] < quantity)
+            if (products.find(product) == products.end() || products[product] < quantity)
             {
                 return false;  // Not enough of this product
             }
