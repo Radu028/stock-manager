@@ -45,6 +45,9 @@ class Stock
         this->products = products;
     }
 
+    // Get the name of the stock
+    std::string getName() const { return this->name; }
+
     void addProducts(const std::map<Product, int> products)
     {
         for (std::map<Product, int>::const_iterator it = products.begin(); it != products.end();

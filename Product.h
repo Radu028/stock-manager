@@ -32,6 +32,9 @@ class Product
     friend std::ostream& operator<<(std::ostream& os, const Product& product);
 
    public:
+    // Default Constructor
+    Product() : id(nextId++), name(""), price(0.0f) {}
+
     // Constructor
     Product(const std::string name, const float price)
     {

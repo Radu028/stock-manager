@@ -1,5 +1,8 @@
+#include <fstream>
 #include <iostream>
 #include <map>
+#include <sstream>
+#include <string>
 #include <vector>
 
 #include "Order.cpp"
@@ -11,89 +14,163 @@
 
 int main()
 {
-    Product apple("Apple", 2.5);
-    Product banana("Banana", 4);
-    Product orange("Orange", 5.5);
+    // Maps to store our products, stocks and orders
+    std::map<std::string, Product> products;
+    std::map<std::string, std::map<Product, int>> stockProducts;
+    std::map<std::string, std::map<std::string, std::map<std::string, int>>>
+        orders;  // date -> store -> product -> quantity
 
-    std::cout << "We have the following products: " << std::endl;
-    std::cout << apple << std::endl;
-    std::cout << banana << std::endl;
-    std::cout << orange << std::endl;
-    std::cout << std::endl;
+    // Open the data file
+    std::ifstream dataFile("data.txt");
 
-    // Create a map for each stock
-    std::map<Product, int> depositProducts;
-    depositProducts[apple] = 200;
-    depositProducts[banana] = 100;
-    depositProducts[orange] = 150;
+    if (!dataFile.is_open())
+    {
+        std::cerr << "Error: Could not open data.txt" << std::endl;
+        return 1;
+    }
 
-    std::map<Product, int> warehouseProducts;
-    warehouseProducts[apple] = 100;
-    warehouseProducts[banana] = 50;
-    warehouseProducts[orange] = 75;
+    std::string line;
+    while (std::getline(dataFile, line))
+    {
+        // Skip empty lines and comments
+        if (line.empty() || line[0] == '#')
+        {
+            continue;
+        }
 
-    std::map<Product, int> shopProducts;
-    shopProducts[apple] = 50;
-    shopProducts[banana] = 25;
-    shopProducts[orange] = 30;
+        std::stringstream ss(line);
+        std::string type;
+        ss >> type;
 
-    // Create stocks
-    Stock deposit("Deposit", depositProducts);
-    Stock warehouse("Warehouse", warehouseProducts);
-    Stock shop("Shop", shopProducts);
+        if (type == "PRODUCT")
+        {
+            std::string name;
+            float price;
+            ss >> name >> price;
 
-    // Create maps for orders
-    std::map<Product, int> order1Products;
-    order1Products[apple] = 10;
-    order1Products[banana] = 5;
-    order1Products[orange] = 8;
+            // Create product and store in our map
+            Product product(name, price);
+            products[name] = product;
+        }
+        else if (type == "STOCK")
+        {
+            std::string stockName, productName;
+            int quantity;
+            ss >> stockName >> productName >> quantity;
 
-    std::map<Product, int> order2Products;
-    order2Products[apple] = 20;
-    order2Products[banana] = 10;
-    order2Products[orange] = 15;
+            // Find the product in our products map
+            if (products.find(productName) != products.end())
+            {
+                stockProducts[stockName][products[productName]] = quantity;
+            }
+        }
+        else if (type == "ORDER")
+        {
+            std::string date, store, productName;
+            int quantity;
+            ss >> date >> store >> productName >> quantity;
 
-    std::map<Product, int> order3Products;
-    order3Products[apple] = 15;
-    order3Products[banana] = 9;
-    order3Products[orange] = 12;
+            // Store order details grouped by date and store
+            orders[date][store][productName] = quantity;
+        }
+    }
 
-    // Create orders
-    Order order1(order1Products, "2024-03-20", "Store 1");
-    Order order2(order2Products, "2024-03-20", "Store 2");
-    Order order3(order3Products, "2024-03-20", "Store 3");
+    dataFile.close();
 
-    std::vector<Order> orders;
-    orders.push_back(order1);
-    orders.push_back(order2);
-    orders.push_back(order3);
-
+    // Create actual Stock objects from our data
     std::vector<Stock> stocks;
-    stocks.push_back(deposit);
-    stocks.push_back(warehouse);
-    stocks.push_back(shop);
+    for (const auto& stockEntry : stockProducts)
+    {
+        Stock stock(stockEntry.first, stockEntry.second);
+        stocks.push_back(stock);
+    }
 
+    // Display products
+    std::cout << "We have the following products: " << std::endl;
+    for (const auto& productEntry : products)
+    {
+        std::cout << productEntry.second << std::endl;
+    }
+    std::cout << std::endl;
+
+    // Display stocks
     std::cout << "We have the following stocks: " << std::endl;
-    std::cout << deposit << std::endl;
-    std::cout << warehouse << std::endl;
-    std::cout << shop << std::endl;
+    for (const auto& stock : stocks)
+    {
+        std::cout << stock << std::endl;
+    }
     std::cout << std::endl;
 
+    // Create and process orders
+    std::vector<Order> orderObjects;
+    for (const auto& dateEntry : orders)
+    {
+        std::string date = dateEntry.first;
+
+        for (const auto& storeEntry : dateEntry.second)
+        {
+            std::string store = storeEntry.first;
+            std::map<Product, int> orderProducts;
+
+            for (const auto& productEntry : storeEntry.second)
+            {
+                std::string productName = productEntry.first;
+                int quantity = productEntry.second;
+
+                if (products.find(productName) != products.end())
+                {
+                    orderProducts[products[productName]] = quantity;
+                }
+            }
+
+            // Create the order object
+            Order order(orderProducts, date, store);
+            orderObjects.push_back(order);
+        }
+    }
+
+    // Display orders
     std::cout << "And we have the following orders: " << std::endl;
-    std::cout << order1 << std::endl;
-    std::cout << order2 << std::endl;
-    std::cout << order3 << std::endl;
+    for (const auto& order : orderObjects)
+    {
+        std::cout << order << std::endl;
+    }
     std::cout << std::endl;
 
-    std::cout << "After processing the orders, we have the following stocks: " << std::endl;
-    order1.process(deposit);
-    order2.process(deposit);
-    order3.process(deposit);
+    // Find the deposit stock for processing orders
+    Stock* depositStock = nullptr;
+    for (auto& stock : stocks)
+    {
+        if (stock.getName() == "Deposit")
+        {
+            depositStock = &stock;
+            break;
+        }
+    }
 
-    std::cout << deposit << std::endl;
-    std::cout << warehouse << std::endl;
-    std::cout << shop << std::endl;
-    std::cout << std::endl;
+    if (depositStock != nullptr)
+    {
+        std::cout << "After processing the orders, we have the following stocks: " << std::endl;
+
+        // Process all orders against the deposit stock
+        for (auto& order : orderObjects)
+        {
+            std::cout << "Processing order for " << order.getPlace() << " on "
+                      << order.getOrderDate() << ":" << std::endl;
+            order.process(*depositStock);
+            std::cout << std::endl;
+        }
+
+        // Display updated stocks
+        for (const auto& stock : stocks)
+        {
+            std::cout << stock << std::endl;
+        }
+    }
+    else
+    {
+        std::cout << "Deposit stock not found, cannot process orders." << std::endl;
+    }
 
     return 0;
 }

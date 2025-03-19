@@ -1,0 +1,45 @@
+# Products format: Name Price
+# Format: PRODUCT_NAME PRICE
+PRODUCT Apple 2.5
+PRODUCT Banana 4.0
+PRODUCT Orange 5.5
+PRODUCT Grapes 7.5
+PRODUCT Watermelon 10.0
+PRODUCT Pineapple 8.0
+
+# Stocks format: Stock_Name Product_Name Quantity
+# Format: STOCK STOCK_NAME PRODUCT_NAME QUANTITY
+STOCK Deposit Apple 200
+STOCK Deposit Banana 100
+STOCK Deposit Orange 150
+STOCK Deposit Grapes 80
+STOCK Deposit Watermelon 30
+
+STOCK Warehouse Apple 100
+STOCK Warehouse Banana 50
+STOCK Warehouse Orange 75
+STOCK Warehouse Pineapple 40
+
+STOCK Shop Apple 50
+STOCK Shop Banana 25
+STOCK Shop Orange 30
+STOCK Shop Grapes 20
+STOCK Shop Watermelon 5
+STOCK Shop Pineapple 15
+
+# Orders format: Order_Date Store_Name Product_Name Quantity
+# Format: ORDER ORDER_DATE STORE_NAME PRODUCT_NAME QUANTITY
+ORDER 2024-03-20 Store1 Apple 10
+ORDER 2024-03-20 Store1 Banana 5
+ORDER 2024-03-20 Store1 Orange 8
+
+ORDER 2024-03-21 Store2 Apple 20
+ORDER 2024-03-21 Store2 Banana 10
+ORDER 2024-03-21 Store2 Orange 15
+ORDER 2024-03-21 Store2 Watermelon 3
+
+ORDER 2024-03-22 Store3 Apple 15
+ORDER 2024-03-22 Store3 Banana 9
+ORDER 2024-03-22 Store3 Orange 12
+ORDER 2024-03-22 Store3 Grapes 7
+ORDER 2024-03-22 Store3 Pineapple 4 

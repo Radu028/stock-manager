@@ -74,6 +74,7 @@ class Order
         this->order = other.order;
         this->orderDate = other.orderDate;
         this->totalPrice = other.totalPrice;
+        this->place = other.place;
     }
 
     Order& operator=(const Order& other)
@@ -87,9 +88,16 @@ class Order
         this->order = other.order;
         this->orderDate = other.orderDate;
         this->totalPrice = other.totalPrice;
+        this->place = other.place;
 
         return *this;
     }
+
+    // Get the place where the order is to be delivered
+    std::string getPlace() const { return this->place; }
+
+    // Get the date when the order was placed
+    std::string getOrderDate() const { return this->orderDate; }
 
     void addProduct(const std::map<Product, int>& products)
     {
