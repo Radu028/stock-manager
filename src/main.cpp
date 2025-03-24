@@ -2,10 +2,8 @@
 #include <fstream>
 #include <iostream>
 #include <map>
-#include <ranges>
 #include <sstream>
 #include <string>
-#include <string_view>
 #include <vector>
 
 #include "../include/Order.h"
